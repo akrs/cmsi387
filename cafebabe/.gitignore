@@ -1,0 +1,7 @@
+*.o
+*.elf
+*.tar.gz
+bochslog.txt
+iso/*
+*.iso
+stage2_eltorito
