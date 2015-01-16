@@ -52,7 +52,8 @@ clean:
 		   grub-0.97/ \
 		   iso/ \
 		   os.iso \
-		   bochslog.txt
+		   bochslog.txt \
+		   *.ini
 
 bochs: os.iso
-	bochs -f bochsrc.txt -q -rc - <<< c
+	bochs -f bochsrc.txt -q #-rc - <<< c

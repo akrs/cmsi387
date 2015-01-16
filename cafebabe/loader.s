@@ -4,9 +4,9 @@
 ; instead
 global loader                 ; the entry symbol for ELF
 
-ALI    equ 1 << 0           ; align loaded modules on page boundaries
+ALI    equ 1 << 0             ; align loaded modules on page boundaries
 MEMINFO  equ 1 << 1           ; provide memory map
-FLAGS    equ ALI | MEMINFO  ; the multiboot flags field
+FLAGS    equ ALI | MEMINFO    ; the multiboot flags field
 MAGIC    equ 0x1BADB002       ; define the magic number constant
 CHECKSUM equ -(MAGIC + FLAGS) ; calculate the checksum (magic number + flags + checksum should equal 0)
 
@@ -18,5 +18,7 @@ align 4                       ; the code must be 4 byte aligned
 
 loader:                       ; the loader label (defined as entry point in linker script)
     mov eax, 0xCAFEBABE       ; place the number 0xCAFEBABE in the register eax
+    mov ebx, 0xDEADBEEF
+    mov ecx, 0xB16B00B5       ; microsoft compatibility
 .loop:
     jmp .loop                 ; loop forever
