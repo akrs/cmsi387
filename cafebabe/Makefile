@@ -55,4 +55,4 @@ clean:
 		   bochslog.txt
 
 bochs: os.iso
-	bochs -f bochsrc.txt -q
+	bochs -f bochsrc.txt -q -rc - <<< c
