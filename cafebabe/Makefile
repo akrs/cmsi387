@@ -6,10 +6,10 @@ all: os.iso
 iso/boot/grub: stage2_eltorito iso/boot
 	mkdir -p iso/boot/grub
 	cp stage2_eltorito iso/boot/grub
+	cp menu.lst iso/boot/grub
 
 iso/boot: kernel.elf
 	mkdir -p iso/boot
-	cp menu.lst iso/boot
 	cp kernel.elf iso/boot
 
 os.iso: iso/boot iso/boot/grub
@@ -37,11 +37,22 @@ stage2_eltorito:
 
 # KERNEL section
 kernel.elf: loader.o
-	ld -T link.ld -melf_i386 loader.o -o kernel.elf
+	ld -T link.ld -m elf_i386 loader.o -o kernel.elf
 
 loader.o:
 	nasm -f elf32 loader.s
 
 # UTILITIES section
+.PHONY: clean
 clean:
-	rm -rf stage2_eltorito *.o kernel.elf *.tar.gz grub-0.97 iso os.iso
+	rm -rf stage2_eltorito \
+		   *.o \
+		   kernel.elf \
+		   *.tar.gz \
+		   grub-0.97/ \
+		   iso/ \
+		   os.iso \
+		   bochslog.txt
+
+bochs: os.iso
+	bochs -f bochsrc.txt -q
