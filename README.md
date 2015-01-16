@@ -18,7 +18,7 @@ GUI debugger.
 ## [CAFEBABE](http://littleosbook.github.io/#hello-cafebabe)
 
 View the `Makefile` for all the commands that need
-to be run. **Note:** We use Arch's patch for fixing the
-configure, rather than replacing it entirely.
+to be run.
 
+Run `make bochs` to build the project and launch bochs.
 
