@@ -30,3 +30,11 @@ be run.
 Run `make` to download and build gcc and binutils.
 
 Add `<thisdir>/cross-compiler/cc/bin` to your path.
+
+## [Bare Bones](http://wiki.osdev.org/Bare_Bones)
+
+This is really to make sure that your cross compiler
+worked. View the makefile for the commands that need
+to be run (requires `nasm` and `qemu` to work).
+
+Check out the link above for more details. 
