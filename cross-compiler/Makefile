@@ -5,14 +5,13 @@ GMP=gmp-6.0.0
 GCC=gcc-4.8.4
 MPFR=mpfr-3.1.2
 MPC=mpc-1.0.2
-URLS=http://ftp.gnu.org/gnu/binutils/$(BINUTILS)a.tar.gz \
-	 http://ftp.gnu.org/gnu/gcc/gcc-4.8.4/$(GCC).tar.gz \
-	 http://www.bastoul.net/cloog/pages/download/$(CLOOG).tar.gz \
-	 https://ftp.gnu.org/gnu/mpfr/$(MPFR).tar.gz \
-	 http://ftp.gnu.org/gnu/gmp/$(GMP).tar.bz2 \
-	 http://isl.gforge.inria.fr/$(ISL).tar.gz \
-	 https://ftp.gnu.org/gnu/mpc/$(MPC).tar.gz \
-	 https://ftp.gnu.org/gnu/texinfo/texinfo-5.2.tar.gz
+URLS=http://ftp.gnu.org/gnu/binutils/$(BINUTILS).tar.gz \
+     http://ftp.gnu.org/gnu/gcc/gcc-4.8.4/$(GCC).tar.gz \
+     http://www.bastoul.net/cloog/pages/download/$(CLOOG).tar.gz \
+     https://ftp.gnu.org/gnu/mpfr/$(MPFR).tar.gz \
+     http://ftp.gnu.org/gnu/gmp/$(GMP)a.tar.bz2 \
+     http://isl.gforge.inria.fr/$(ISL).tar.gz \
+     https://ftp.gnu.org/gnu/mpc/$(MPC).tar.gz 
 FILES:=$(notdir $(URLS))
 export PREFIX:=$(shell pwd)/cc
 export TARGET:=i686-elf
