@@ -22,3 +22,11 @@ to be run.
 
 Run `make bochs` to build the project and launch bochs.
 
+## Cross Compiler
+
+View the `Makefile` for all commands that need to
+be run.
+
+Run `make` to download and build gcc and binutils.
+
+Add `<thisdir>/cross-compiler/cc/bin` to your path.
