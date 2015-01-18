@@ -10,7 +10,7 @@ so the directions are targeted towards that OS.
 
 Arch:
 ```bash
-# pacman -S base-devel nasm cdrtools bochs multilib-devel
+# pacman -S base-devel nasm cdrkit bochs multilib-devel
 ```
 Mac:
 * Xcode with command line tools
@@ -20,7 +20,7 @@ $ brew install nasm cdrtools bochs
 ```
 NB: our cross-compiler compiled fine for me using clang, your mileage may vary. I have a lot of other libs on my system, not sure which are needed.
 
-`cdrtools` provides `mkisofs` and `bochs` includes the
+`cdrtools` or `cdrkit` provides `mkisofs` and `bochs` includes the
 GUI debugger.
 
 ## [CAFEBABE](http://littleosbook.github.io/#hello-cafebabe)
