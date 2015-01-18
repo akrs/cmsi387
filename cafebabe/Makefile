@@ -13,16 +13,16 @@ iso/boot: kernel.elf
 	cp kernel.elf iso/boot
 
 os.iso: iso/boot iso/boot/grub
-	genisoimage -R                              \
-                -b boot/grub/stage2_eltorito    \
-                -no-emul-boot                   \
-                -boot-load-size 4               \
-                -A os                           \
-                -input-charset utf8             \
-                -quiet                          \
-                -boot-info-table                \
-                -o os.iso                       \
-                iso
+	mkisofs     -R                              \
+				-b boot/grub/stage2_eltorito    \
+				-no-emul-boot                   \
+				-boot-load-size 4               \
+				-A os                           \
+				-input-charset utf8             \
+				-quiet                          \
+				-boot-info-table                \
+				-o os.iso                       \
+				iso
 
 ## GRUB section
 $(GRUB).tar.gz:
@@ -37,7 +37,7 @@ stage2_eltorito:
 
 # KERNEL section
 kernel.elf: loader.o
-	ld -T link.ld -m elf_i386 loader.o -o kernel.elf
+	i686-elf-ld -T link.ld -m elf_i386 loader.o -o kernel.elf
 
 loader.o:
 	nasm -f elf32 loader.s
