@@ -10,7 +10,7 @@ so the directions are targeted towards that OS.
 
 Arch:
 ```bash
-# pacman -S base-devel nasm cdrkit bochs multilib-devel
+# pacman -S base-devel nasm cdrtools bochs multilib-devel
 ```
 Mac:
 * Xcode with command line tools
