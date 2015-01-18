@@ -20,7 +20,7 @@ $ brew install nasm cdrtools bochs
 ```
 NB: our cross-compiler compiled fine for me using clang, your mileage may vary. I have a lot of other libs on my system, not sure which are needed.
 
-`cdrtools` provides `genisoimage` and `bochs` includes the
+`cdrtools` provides `mkisofs` and `bochs` includes the
 GUI debugger.
 
 ## [CAFEBABE](http://littleosbook.github.io/#hello-cafebabe)
