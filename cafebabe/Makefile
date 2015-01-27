@@ -1,6 +1,14 @@
 GRUB=grub-0.97
+OBJECTS=loader.o kmain.o
+CC=gcc
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+AS = nasm
+ASFLAGS = -f elf
+LDFLAGS = -T link.ld -melf_i386
 
-all: os.iso
+
+all: kernel.elf
 
 ## ISO section
 iso/boot/grub: stage2_eltorito iso/boot
@@ -36,11 +44,14 @@ stage2_eltorito:
 	wget http://littleosbook.github.com/files/$@
 
 # KERNEL section
-kernel.elf: loader.o
-	i686-elf-ld -T link.ld -m elf_i386 loader.o -o kernel.elf
+kernel.elf: $(OBJECTS)
+	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
-loader.o:
-	nasm -f elf32 loader.s
+%.o: %.c
+	$(CC) $(CFLAGS)  $< -o $@ -lgcc
+
+%.o: %.s
+	$(AS) $(ASFLAGS) $< -o $@
 
 # UTILITIES section
 .PHONY: clean
