@@ -1,11 +1,11 @@
 GRUB=grub-0.97
 OBJECTS=loader.o kmain.o
-CC=gcc
+CC=i686-elf-gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
 AS = nasm
 ASFLAGS = -f elf
-LDFLAGS = -T link.ld -melf_i386
+LDFLAGS = -T link.ld -ffreestanding -nostdlib -lgcc
 
 
 all: kernel.elf
@@ -45,7 +45,7 @@ stage2_eltorito:
 
 # KERNEL section
 kernel.elf: $(OBJECTS)
-	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
+	$(CC) $(LDFLAGS) -o kernel.elf $(OBJECTS) 
 
 %.o: %.c
 	$(CC) $(CFLAGS)  $< -o $@ -lgcc
