@@ -1,5 +1,9 @@
-/* The C function */
-int sum_of_three(int arg1, int arg2, int arg3)
-{
-    return arg1 + arg2 + arg3;
+#include "fb.h"
+
+int kernel_main() {
+    /* for (int i = 0; i < 2000; i++) {
+        fb_write_cell(i, '\0', BLACK, BLACK);
+    } */
+    fb_write('A', 1);
+    return 42;
 }

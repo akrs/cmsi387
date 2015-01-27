@@ -1,8 +1,8 @@
 GRUB=grub-0.97
-OBJECTS=loader.o kmain.o
+OBJECTS=loader.o fb.o io.o kmain.o 
 CC=i686-elf-gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -std=c99
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -T link.ld -ffreestanding -nostdlib -lgcc
@@ -66,5 +66,6 @@ clean:
 		   bochslog.txt \
 		   *.ini
 
-bochs: os.iso
-	bochs -f bochsrc.txt -q #-rc - <<< c
+bochs: clean os.iso
+	echo "c" > /tmp/bochs
+	bochs -f bochsrc.txt -q -rc /tmp/bochs
