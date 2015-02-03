@@ -18,6 +18,11 @@ SECTIONS {
         *(.data)             /* all data sections from all files */
     }
 
+    .kernel_stack ALIGN (0x1000) :   /* align at 4 KB */
+    {
+        *(.kernel_stack*)             /* all data sections from all files */
+    }
+
     .bss ALIGN (0x1000) :    /* align at 4 KB */
     {
         *(COMMON)            /* all COMMON sections from all files */

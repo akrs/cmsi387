@@ -43,12 +43,13 @@ void fb_scroll_up() {
     current_position -= NUM_COLS;
 }
 
-int fb_write(char buf, unsigned int len) {
+int fb_write(char *buf, unsigned int len) {
+    return 0;
     if (len > BUFFER_LENGTH) {
         return -1;
     }
-    unsigned int i = buf;
-    /*
+    unsigned int i = 0;
+    
     while (i < len) {
         i++;
         if (current_position >= BUFFER_LENGTH) {
@@ -56,12 +57,12 @@ int fb_write(char buf, unsigned int len) {
         } 
         if (buf[i] == '\n') {
             current_position += NUM_ROWS - (current_position % NUM_ROWS);
-            fb_move_cursor(current_position);
+            //fb_move_cursor(current_position);
         } else {
             fb_write_cell(current_position, buf[i], LIGHT_GREY, BLACK);
-            fb_move_cursor(++current_position);
+            //fb_move_cursor(++current_position);
         }
-    }*/
+    }
 
     return i;
 }
