@@ -26,4 +26,8 @@
 
 void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg);
 
-int fb_write(char buf, unsigned int len);
+int fb_write(char *buf, unsigned int len);
+
+int fb_write_str(char *buf);
+
+void fb_clear();

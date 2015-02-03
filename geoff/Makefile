@@ -56,8 +56,7 @@ kernel.elf: $(OBJECTS)
 # UTILITIES section
 .PHONY: clean
 clean:
-	rm -rf stage2_eltorito \
-		   *.o \
+	rm -rf *.o \
 		   kernel.elf \
 		   *.tar.gz \
 		   grub-0.97/ \

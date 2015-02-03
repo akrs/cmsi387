@@ -4,10 +4,11 @@
 #define BUFFER_LENGTH 2000
 #define NUM_ROWS 25
 #define NUM_COLS 80
+#define TAB_WIDTH 4
 
 char* fb = (char*)0x000B8000;
 
-unsigned int current_position;
+unsigned int current_position = 0;
 /** fb_write_cell:
  *  Writes a character with the given foreground and background to position i
  *  in the framebuffer.
@@ -18,8 +19,9 @@ unsigned int current_position;
  *  @param bg The background color
  */
 void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg) {
-    fb[i] = c;
-    fb[i + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
+    unsigned int actual_location = i * 2;
+    fb[actual_location] = c;
+    fb[actual_location + 1] = ((fg & 0x0F) << 4) | (bg & 0x0F);
 }
 
 void fb_move_cursor(unsigned short pos)
@@ -36,32 +38,58 @@ void fb_write_row_column(unsigned int row, unsigned int column, char c, unsigned
 }
 
 void fb_scroll_up() {
-    for (int i = NUM_COLS; i < BUFFER_LENGTH; i++) {
-        fb[i - NUM_COLS] = fb[i];
+    for (int i = NUM_COLS * 2; i < BUFFER_LENGTH * 2; i++) {
+        fb[i - NUM_COLS*2] = fb[i];
         fb[i] = 0;
     }
     current_position -= NUM_COLS;
 }
 
-int fb_write(char buf, unsigned int len) {
+int fb_write(char *buf, unsigned int len) {
     if (len > BUFFER_LENGTH) {
         return -1;
     }
-    unsigned int i = buf;
-    /*
+    unsigned int i = 0;
+    
     while (i < len) {
-        i++;
         if (current_position >= BUFFER_LENGTH) {
             fb_scroll_up();
         } 
-        if (buf[i] == '\n') {
-            current_position += NUM_ROWS - (current_position % NUM_ROWS);
-            fb_move_cursor(current_position);
-        } else {
-            fb_write_cell(current_position, buf[i], LIGHT_GREY, BLACK);
-            fb_move_cursor(++current_position);
+        switch (buf[i]) {
+            case '\n':
+                current_position += NUM_COLS - (current_position % NUM_COLS);
+                fb_move_cursor(current_position);
+                break;
+            case '\t':
+                current_position = current_position + TAB_WIDTH - (current_position % TAB_WIDTH);
+                fb_move_cursor(current_position);
+                break;
+            default:
+                fb_write_cell(current_position, buf[i], BLACK, LIGHT_GREY);
+                fb_move_cursor(current_position++);
+                break;
         }
-    }*/
+        i++;
+    }
+    if (len > 1) {
+        current_position--;
+    }
 
     return i;
+}
+
+int fb_strlen(char *str) {
+    int i = 0;
+    while (str[i++] != '\0') {}
+    return i;
+}
+
+int fb_write_str(char *buf) {
+    return fb_write(buf, fb_strlen(buf));
+}
+
+void fb_clear() {
+    for (int i = 0; i < NUM_ROWS * NUM_COLS; i++) {
+        fb_write_cell(i, ' ', BLACK, LIGHT_GREY);
+    }
 }
