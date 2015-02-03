@@ -1,4 +1,5 @@
-megs:            32
+megs:            256
+magic_break: enabled=1
 display_library: x, options="gui_debug"
 ata0-master:     type=cdrom, path=os.iso, status=inserted
 boot:            cdrom
