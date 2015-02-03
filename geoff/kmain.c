@@ -7,7 +7,7 @@ int kernel_main() {
     fb_clear();
     fb_write_str("Hello World\n");
     for (int i = 0; i < 3; i++) {
-        fb_write_str("Goodbye, World! \t");
+        fb_write_str("Goodbye, World!\t");
     }
     fb_write_str("\n");
     for (int i = 0; i < 80; i++) {

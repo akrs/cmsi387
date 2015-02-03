@@ -61,7 +61,7 @@ int fb_write(char *buf, unsigned int len) {
                 fb_move_cursor(current_position);
                 break;
             case '\t':
-                current_position = current_position + TAB_WIDTH - (current_position % TAB_WIDTH);
+                current_position += TAB_WIDTH - (current_position % TAB_WIDTH);
                 fb_move_cursor(current_position);
                 break;
             default:
