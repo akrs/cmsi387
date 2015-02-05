@@ -5,4 +5,5 @@ bochslog.txt
 iso/*
 *.iso
 *.ini
+*.out
 stage2_eltorito

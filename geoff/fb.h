@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stddef.h>
+
 #define FB_COMMAND_PORT         0x3D4
 #define FB_DATA_PORT            0x3D5
 
@@ -24,9 +27,9 @@
 #define WHITE 15
 
 
-void fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg);
+void fb_write_cell(uint32_t i, char c, uint8_t fg, uint8_t bg);
 
-int fb_write(char *buf, unsigned int len);
+int fb_write(char *buf, size_t len);
 
 int fb_write_str(char *buf);
 

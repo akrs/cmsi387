@@ -1,9 +1,7 @@
 #include "fb.h"
+#include "serial.h"
 
 int kernel_main() {
-    /* for (int i = 0; i < 2000; i++) {
-        fb_write_cell(i, '\0', BLACK, BLACK);
-    } */
     fb_clear();
     fb_write_str("Hello World\n");
     for (int i = 0; i < 3; i++) {
@@ -15,5 +13,7 @@ int kernel_main() {
         char* ptr = &num;
         fb_write(ptr, 1);
     }
+
+    serial_write_str("Hello world!");
     return 42;
 }
