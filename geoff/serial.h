@@ -4,7 +4,8 @@
  * all serial ports (COM1, COM2, COM3, COM4) have their ports in the same
  * order, but they start at different values.
  */
-
+#ifndef _SERIAL
+#define _SERIAL
 #define SERIAL_COM1_BASE                0x3F8      /* COM1 base port */
 
 #define SERIAL_DATA_PORT(base)          (base)
@@ -23,4 +24,4 @@
 
 void serial_write(char *buf, size_t len);
 void serial_write_str(char *buf);
-
+#endif

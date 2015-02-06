@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifndef _FB
+#define _FB
 #define FB_COMMAND_PORT         0x3D4
 #define FB_DATA_PORT            0x3D5
 
@@ -34,3 +36,4 @@ int fb_write(char *buf, size_t len);
 int fb_write_str(char *buf);
 
 void fb_clear();
+#endif
