@@ -12,3 +12,5 @@ gmp-6.0.0a.tar.bz2
 isl-0.12.tar.gz
 mpc-1.0.2.tar.gz
 mpfr-3.1.2.tar.gz
+*.tar.gz
+*.log
