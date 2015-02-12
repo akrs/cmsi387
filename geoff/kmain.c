@@ -1,5 +1,6 @@
 #include "fb.h"
 #include "serial.h"
+#include "gdt.h"
 
 int kernel_main() {
     fb_clear();
@@ -15,5 +16,7 @@ int kernel_main() {
     }
 
     serial_write_str("Hello world!");
+    gdt_load();
+    fb_write_str("\nGDT Loaded.");
     return 42;
 }
