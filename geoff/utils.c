@@ -16,6 +16,11 @@ int iscntrl(int i) {
     return i < CNTRL_CHAR_LIMIT;
 }
 
+struct digit_stack {
+    char digit;
+    struct digit_stack next;
+};
+
 
 // Inspired by http://www.eskimo.com/~scs/cclass/int/sx11b.html
 int raw_printf(void (*write_char)(char), const char *fmt, ...) {
