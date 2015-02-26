@@ -2,7 +2,7 @@ GRUB = grub-0.97
 LIBDIR = $(wildcard internals/*)
 BUILDDIR = build
 ELTORITO = stage2_eltorito
-SOURCES := $(shell find -name '*.c' -o -name '*.s')
+SOURCES := $(shell find -name '*.c' -or -name '*.s')
 CSOURCES := $(SOURCES:%.c=%.o)
 OBJECTS := $(addprefix $(BUILDDIR)/,$(CSOURCES:%.s=%.o))
 CC=i686-elf-gcc
@@ -55,10 +55,10 @@ kernel.elf: $(OBJECTS)
 	mkdir -p build
 	$(CC) $(LDFLAGS) -o build/kernel.elf $(OBJECTS)
 
-$(BUILDDIR)/%.o: %.c $(BUILDDIR) 
+$(BUILDDIR)/%.o: %.c $(BUILDDIR)
 	$(CC) $(CFLAGS)  $< -o $@ -lgcc
 
-$(BUILDDIR)/%.o: %.s $(BUILDDIR) 
+$(BUILDDIR)/%.o: %.s $(BUILDDIR)
 	$(AS) $(ASFLAGS) $< -o $@
 
 $(BUILDDIR):
