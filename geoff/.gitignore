@@ -1,9 +1,6 @@
-*.o
-*.elf
 *.tar.gz
 bochslog.txt
-iso/*
-*.iso
 *.ini
 *.out
+build
 stage2_eltorito
