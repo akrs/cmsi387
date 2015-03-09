@@ -1,4 +1,5 @@
 #include <io.h>
+#include <fb.h>
 
 // These are here so they don't clutter the global defines.
 
@@ -16,12 +17,14 @@ void ack_pic () {
 
 // Go see here: https://www-s.acm.illinois.edu/sigops/roll_your_own/i386/irq.html
 void setup_pic () {
+
+    __asm__("xchg %bx, %bx");
     /* ICW1 */
     outb(MASTER_PORT_A, 0x11); /* Master port A */
     outb(SLAVE_PORT_A, 0x11);  /* Slave port A */
 
     /* ICW2 */
-    outb(SLAVE_PORT_A, 0x20); /* Master offset of 0x20 in the IDT */
+    outb(MASTER_PORT_B, 0x20); /* Master offset of 0x20 in the IDT */
     outb(SLAVE_PORT_B, 0x28); /* Master offset of 0x28 in the IDT */
 
     /* ICW3 */
@@ -31,6 +34,9 @@ void setup_pic () {
     /* ICW4 */
     outb(MASTER_PORT_B, 0x05); /* Set as master */
     outb(SLAVE_PORT_B, 0x01);  /* Set as slave */
+
+    outb(MASTER_PORT_B, 0xFD); /* Disable all but keyboard */
+    outb(SLAVE_PORT_B, 0xFF);  /* Disable all */
 
     ack_pic();
 }
