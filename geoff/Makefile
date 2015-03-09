@@ -76,5 +76,4 @@ clean:
 		   *.out
 
 bochs: clean $(BUILDDIR)/os.iso
-	echo "c" > /tmp/bochs
-	bochs -f bochsrc.txt -q -rc /tmp/bochs
+	bochs -f bochsrc.txt -q

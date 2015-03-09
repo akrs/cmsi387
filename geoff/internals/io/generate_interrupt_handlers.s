@@ -21,7 +21,7 @@ common_interrupt_handler:               ; the common parts of the generic interr
     call    interrupt_handler
     popad
 
-    ; restore the esp because o fthe error code and interrupt number
+    ; restore the esp because of the error code and interrupt number
     add     esp, 8
 
     ; return to the code that got interrupted

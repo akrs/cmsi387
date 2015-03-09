@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "setidt.h"
 #include "generate_interrupt_handlers.h"
+#include <fb.h>
 
 struct IDT {
     uint16_t limit;
@@ -26,33 +27,34 @@ void build_IDT_entry (uint16_t *target, struct IDTEntry source) {
     uint8_t present = 1 << 7;
     uint8_t privilege = (source.privilege_level & 3) << 5;
     target[2] = (present | privilege | source.entry_type) << 8;
-    target[3] = (uint16_t)source.offset >> 16;
+    target[3] = (uint16_t)(source.offset >> 16);
 }
 
 int64_t idt_table[256];
 struct IDT idt;
 void idt_load () {
     struct IDTEntry type;
-    type.selector = 0x8;
+    type.selector = 0x08;
     type.privilege_level = 0;
-    type.entry_type = TASK_GATE;
-    type.offset = (uintptr_t)interrupt_handler_0;
+    type.entry_type = INT_GATE;
+    type.offset = (uintptr_t)&interrupt_handler_0;
     build_IDT_entry((uint16_t*)&idt_table[0], type);
-    type.offset = (uintptr_t)interrupt_handler_1;
+    type.offset = (uintptr_t)&interrupt_handler_1;
     build_IDT_entry((uint16_t*)&idt_table[1], type);
-    type.offset = (uintptr_t)interrupt_handler_2;
+    type.offset = (uintptr_t)&interrupt_handler_2;
     build_IDT_entry((uint16_t*)&idt_table[2], type);
-    type.offset = (uintptr_t)interrupt_handler_3;
+    type.offset = (uintptr_t)&interrupt_handler_3;
     build_IDT_entry((uint16_t*)&idt_table[3], type);
-    type.offset = (uintptr_t)interrupt_handler_4;
+    type.offset = (uintptr_t)&interrupt_handler_4;
     build_IDT_entry((uint16_t*)&idt_table[4], type);
-    type.offset = (uintptr_t)interrupt_handler_5;
+    type.offset = (uintptr_t)&interrupt_handler_5;
     build_IDT_entry((uint16_t*)&idt_table[5], type);
-    type.offset = (uintptr_t)interrupt_handler_6;
+    type.offset = (uintptr_t)&interrupt_handler_6;
     build_IDT_entry((uint16_t*)&idt_table[6], type);
-    type.offset = (uintptr_t)int_handler;
+    type.offset = (uintptr_t)&int_handler;
     build_IDT_entry((uint16_t*)&idt_table[50], type);
     idt.base = (uintptr_t)&idt_table;
     idt.limit = 256 * 8 - 1;
+
     load_idt((void*)&idt);
 }

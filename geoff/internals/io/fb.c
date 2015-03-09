@@ -53,11 +53,11 @@ int fb_write(char *buf, size_t len) {
         return -1;
     }
     uint32_t i = 0;
-    
+
     while (i < len) {
         if (current_position >= BUFFER_LENGTH) {
             fb_scroll_up();
-        } 
+        }
         switch (buf[i]) {
             case '\n':
                 current_position += NUM_COLS - (current_position % NUM_COLS);
@@ -81,10 +81,22 @@ int fb_write(char *buf, size_t len) {
     return i;
 }
 
-
-
 int fb_write_str(char *buf) {
     return fb_write(buf, strlen(buf));
+}
+
+int fb_write_hex(int32_t num) {
+    char dest[11] = {'0', 'x'};
+    for (int i = 9; i > 1; i--) {
+        char four_bits = num & 0xf;
+        if (four_bits < 0xa) {
+            dest[i] = four_bits + 0x30;         // maps onto 0-9
+        } else {
+            dest[i] = four_bits + 0x61 - 0xa;   // maps onto a-f
+        }
+        num = num >> 4;
+    }
+    return fb_write(dest, 10);
 }
 
 void fb_clear() {
