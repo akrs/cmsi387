@@ -35,3 +35,9 @@ no_error_code_interrupt_handler 4       ; create handler for interrupt 1
 no_error_code_interrupt_handler 5       ; create handler for interrupt 1
 no_error_code_interrupt_handler 6       ; create handler for interrupt 1
 error_code_interrupt_handler    7       ; create handler for interrupt 7
+
+global int_handler
+int_handler:
+    mov gs, ax
+    mov dword [gs:0xB8000],') : '
+    hlt

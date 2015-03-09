@@ -21,6 +21,8 @@ int kernel_main() {
     fb_write_str("\nGDT Loaded.");
 
     idt_load();
+    asm("xchgw bx, bx");
+    asm("int 50");
 
     return 42;
 }

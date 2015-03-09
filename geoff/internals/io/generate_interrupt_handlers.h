@@ -11,5 +11,6 @@ extern void* interrupt_handler_4;
 extern void* interrupt_handler_5;
 extern void* interrupt_handler_6;
 extern void* interrupt_handler_7;
+extern void* int_handler;
 
 #endif

@@ -3,8 +3,8 @@
 #include "generate_interrupt_handlers.h"
 
 struct IDT {
-    uintptr_t base;
     uint16_t limit;
+    uintptr_t base;
 } __attribute__((packed));
 
 typedef enum {
@@ -35,7 +35,7 @@ void idt_load () {
     struct IDTEntry type;
     type.selector = 0x8;
     type.privilege_level = 0;
-    type.entry_type = INT_GATE;
+    type.entry_type = TASK_GATE;
     type.offset = (uintptr_t)interrupt_handler_0;
     build_IDT_entry((uint16_t*)&idt_table[0], type);
     type.offset = (uintptr_t)interrupt_handler_1;
@@ -50,8 +50,8 @@ void idt_load () {
     build_IDT_entry((uint16_t*)&idt_table[5], type);
     type.offset = (uintptr_t)interrupt_handler_6;
     build_IDT_entry((uint16_t*)&idt_table[6], type);
-    type.offset = (uintptr_t)interrupt_handler_7;
-    build_IDT_entry((uint16_t*)&idt_table[7], type);
+    type.offset = (uintptr_t)int_handler;
+    build_IDT_entry((uint16_t*)&idt_table[50], type);
     idt.base = (uintptr_t)&idt_table;
     idt.limit = 256 * 8 - 1;
     load_idt((void*)&idt);
