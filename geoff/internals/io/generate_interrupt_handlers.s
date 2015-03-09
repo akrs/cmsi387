@@ -34,7 +34,25 @@ no_error_code_interrupt_handler 3       ; create handler for interrupt 1
 no_error_code_interrupt_handler 4       ; create handler for interrupt 1
 no_error_code_interrupt_handler 5       ; create handler for interrupt 1
 no_error_code_interrupt_handler 6       ; create handler for interrupt 1
-error_code_interrupt_handler    7       ; create handler for interrupt 7
+no_error_code_interrupt_handler 7       ; create handler for interrupt 7
+error_code_interrupt_handler    8       ; create handler for interrupt 8
+no_error_code_interrupt_handler 9       ; create handler for interrupt 9
+error_code_interrupt_handler    10      ; create handler for interrupt 10
+error_code_interrupt_handler    11      ; create handler for interrupt 11
+error_code_interrupt_handler    12      ; create handler for interrupt 12
+error_code_interrupt_handler    13      ; create handler for interrupt 13, GP fault. If nothing else, handle this.
+error_code_interrupt_handler    14      ; create handler for interrupt 14
+no_error_code_interrupt_handler 15      ; create handler for interrupt 15
+no_error_code_interrupt_handler 16      ; create handler for interrupt 16
+error_code_interrupt_handler    17      ; create handler for interrupt 17
+no_error_code_interrupt_handler 18      ; create handler for interrupt 18
+no_error_code_interrupt_handler 19      ; create handler for interrupt 19
+; 20 - 31 are Intel reserved. Do not touch.
+
+; Keyboard handler.
+no_error_code_interrupt_handler 33      ; create handler for interrupt 33
+
+; Other handlers will be added as needed
 
 global int_handler
 int_handler:

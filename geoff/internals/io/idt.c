@@ -37,20 +37,21 @@ void idt_load () {
     type.selector = 0x08;
     type.privilege_level = 0;
     type.entry_type = INT_GATE;
+    // Divide by 0
     type.offset = (uintptr_t)&interrupt_handler_0;
     build_IDT_entry((uint16_t*)&idt_table[0], type);
-    type.offset = (uintptr_t)&interrupt_handler_1;
-    build_IDT_entry((uint16_t*)&idt_table[1], type);
-    type.offset = (uintptr_t)&interrupt_handler_2;
-    build_IDT_entry((uint16_t*)&idt_table[2], type);
+
+    // Debug
     type.offset = (uintptr_t)&interrupt_handler_3;
     build_IDT_entry((uint16_t*)&idt_table[3], type);
-    type.offset = (uintptr_t)&interrupt_handler_4;
-    build_IDT_entry((uint16_t*)&idt_table[4], type);
-    type.offset = (uintptr_t)&interrupt_handler_5;
-    build_IDT_entry((uint16_t*)&idt_table[5], type);
-    type.offset = (uintptr_t)&interrupt_handler_6;
-    build_IDT_entry((uint16_t*)&idt_table[6], type);
+
+    // General Protection fault
+    type.offset = (uintptr_t)&interrupt_handler_13;
+    build_IDT_entry((uint16_t*)&idt_table[13], type);
+
+    // Keyboard
+    type.offset = (uintptr_t)&interrupt_handler_33;
+    build_IDT_entry((uint16_t*)&idt_table[33], type);
 
     idt.base = (uintptr_t)&idt_table;
     idt.limit = 256 * 8 - 1;
