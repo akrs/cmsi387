@@ -51,8 +51,7 @@ void idt_load () {
     build_IDT_entry((uint16_t*)&idt_table[5], type);
     type.offset = (uintptr_t)&interrupt_handler_6;
     build_IDT_entry((uint16_t*)&idt_table[6], type);
-    type.offset = (uintptr_t)&int_handler;
-    build_IDT_entry((uint16_t*)&idt_table[50], type);
+
     idt.base = (uintptr_t)&idt_table;
     idt.limit = 256 * 8 - 1;
 
