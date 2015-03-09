@@ -1,9 +1,10 @@
-#include "setidt.h"
 #include <stdint.h>
+#include "setidt.h"
+#include "generate_interrupt_handlers.h"
 
 struct IDT {
     uint32_t limit;
-    uint32_t base;
+    uintptr_t base;
 } __attribute__((packed));
 
 typedef enum {
@@ -13,10 +14,10 @@ typedef enum {
 } IDT_Entry_type;
 
 struct IDTEntry { // THIS ISN'T A REAL DESCRIPTOR entry. it is only a convenience.
-   uint32_t offset; // offset bits
+   uintptr_t offset; // offset bits
    uint16_t selector; // a code segment selector in GDT
    uint8_t privilege_level; // 0 to 3
-   IDT_Entry_type entry_type; // type and attributes, see below
+   IDT_Entry_type entry_type; // type and attributes, see above
 };
 
 void build_IDT_entry (uint16_t *target, struct IDTEntry source) {
@@ -28,10 +29,32 @@ void build_IDT_entry (uint16_t *target, struct IDTEntry source) {
     target[3] = (uint16_t)source.offset >> 16;
 }
 
+int64_t idt_table[256];
 void idt_load () {
     struct IDT idt;
-    int64_t idt_table[256];
-    idt.base = (uint32_t)&idt_table;
+    /*
+    struct IDTEntry type;
+    type.selector = 0x8;
+    type.privilege_level = 0;
+    type.entry_type = INT_GATE;
+    type.offset = (uintptr_t)interrupt_handler_0;
+    build_IDT_entry((uint16_t*)&idt_table[0], type);
+    type.offset = (uintptr_t)interrupt_handler_1;
+    build_IDT_entry((uint16_t*)&idt_table[1], type);
+    type.offset = (uintptr_t)interrupt_handler_2;
+    build_IDT_entry((uint16_t*)&idt_table[2], type);
+    type.offset = (uintptr_t)interrupt_handler_3;
+    build_IDT_entry((uint16_t*)&idt_table[3], type);
+    type.offset = (uintptr_t)interrupt_handler_4;
+    build_IDT_entry((uint16_t*)&idt_table[4], type);
+    type.offset = (uintptr_t)interrupt_handler_5;
+    build_IDT_entry((uint16_t*)&idt_table[5], type);
+    type.offset = (uintptr_t)interrupt_handler_6;
+    build_IDT_entry((uint16_t*)&idt_table[6], type);
+    type.offset = (uintptr_t)interrupt_handler_7;
+    build_IDT_entry((uint16_t*)&idt_table[7], type);
+    */
+    idt.base = (uintptr_t)&idt_table;
     idt.limit = 256 * 8;
     load_idt((void*)&idt);
 }
