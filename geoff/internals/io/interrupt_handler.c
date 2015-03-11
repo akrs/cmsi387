@@ -38,7 +38,6 @@ void interrupt_handler (struct cpu_state cpu, uint32_t interrupt, uint32_t error
             fb_write_str("General protection fault\n");
             break;
         case 33:
-            fb_write_str("you pressed the keyboard!");
             handle_keyboard();
             ack_pic();
             break;

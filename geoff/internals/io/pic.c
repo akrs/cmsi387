@@ -28,7 +28,7 @@ void setup_pic () {
     outb(SLAVE_PORT_B, 0x28); /* Master offset of 0x28 in the IDT */
 
     /* ICW3 */
-    outb(MASTER_PORT_B, 0x04); /* Slaves attached to IR line 2 */
+    outb(MASTER_PORT_B, 0x04);  /* Slaves attached to IR line 2 */
     outb(SLAVE_PORT_B, 0x02);  /* This slave in IR line 2 of master */
 
     /* ICW4 */
