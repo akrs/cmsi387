@@ -8,8 +8,8 @@ OBJECTS := $(addprefix $(BUILDDIR)/,$(CSOURCES:%.s=%.o))
 CC=i686-elf-gcc
 INCLUDES = $(addprefix -I, $(LIBDIR))
 CFLAGS=-m32 -nostdlib -fno-builtin -fno-stack-protector -ffreestanding \
-	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -std=c99 \
-	   $(INCLUDES)
+	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -std=gnu99 \
+	   -masm=intel $(INCLUDES)
 AS = nasm
 ASFLAGS = -f elf
 LDFLAGS = -T link.ld -ffreestanding -nostdlib -lgcc -fno-builtin

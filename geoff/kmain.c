@@ -12,7 +12,7 @@ int kernel_main() {
     gdt_load();
 
     idt_load();
-    __asm__("int $3");
+    asm("int 3");
 
     setup_pic();
 
