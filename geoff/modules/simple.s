@@ -1,3 +1,5 @@
-mov eax, 0xDEADBEEF
 
-jmp $
+start:
+mov eax, 0xDEADBABE
+
+jmp start

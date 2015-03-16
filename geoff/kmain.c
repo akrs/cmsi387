@@ -20,17 +20,12 @@ int kernel_main(uintptr_t ebx) {
     setup_pic();
 
     multiboot_info_t *mbinfo = (multiboot_info_t *)ebx;
-    uintptr_t address_of_module = mbinfo->mods_addr;
+    module_t* modules = (module_t*) mbinfo->mods_addr;
+    uintptr_t address_of_module = modules[0].mod_start;
+
     fb_write_hex(address_of_module);
-    asm("xchg bx, bx");
     typedef void (*call_module_t)(void);
     call_module_t start_program = (call_module_t) address_of_module;
-    fb_write_str("\nFlags: ");
-    fb_write_num(mbinfo->flags);
-    fb_write_str("\nmods_count: ");
-    fb_write_num(mbinfo->mods_count);
-    fb_write_str("Start program: ");
-    fb_write_hex((int32_t)start_program);
     asm("xchg bx, bx");
     start_program();
 

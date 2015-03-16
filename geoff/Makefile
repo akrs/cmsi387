@@ -2,20 +2,21 @@ GRUB = grub-0.97
 LIBDIR = $(wildcard internals/*)
 BUILDDIR = build
 ELTORITO = stage2_eltorito
-SOURCES := $(shell find -name '*.c' -or -name '*.s')
+SOURCES := $(shell find -name 'modules' -prune -or -name '*.c' -print -or -name '*.s' -print)
 CSOURCES := $(SOURCES:%.c=%.o)
 OBJECTS := $(addprefix $(BUILDDIR)/,$(CSOURCES:%.s=%.o))
 CC=i686-elf-gcc
 INCLUDES = $(addprefix -I, $(LIBDIR))
 CFLAGS=-m32 -nostdlib -fno-builtin -fno-stack-protector -ffreestanding \
 	   -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c -std=gnu99 \
-	   -masm=intel $(INCLUDES)
+	   -masm=intel  $(INCLUDES)
 AS = nasm
-ASFLAGS = -f elf
-LDFLAGS = -T link.ld -ffreestanding -nostdlib -lgcc -fno-builtin
+ASFLAGS = -felf 
+FLATFLAGS = -fbin
+LDFLAGS = -T link.ld -ffreestanding -nostdlib -lgcc -fno-builtin 
 
 
-all: kernel.elf
+all: $(BUILDDIR)/os.iso
 
 ## ISO section
 $(BUILDDIR)/iso/boot/grub: $(ELTORITO) $(BUILDDIR)/iso/boot
@@ -27,7 +28,8 @@ $(BUILDDIR)/iso/boot: kernel.elf
 	mkdir -p $(BUILDDIR)/iso/boot
 	cp $(BUILDDIR)/kernel.elf $(BUILDDIR)/iso/boot
 
-$(BUILDDIR)/os.iso: $(BUILDDIR)/iso/boot $(BUILDDIR)/iso/boot/grub
+$(BUILDDIR)/os.iso: $(BUILDDIR)/iso/boot $(BUILDDIR)/iso/boot/grub \
+					$(BUILDDIR)/iso/modules
 	mkisofs     -R                              \
 				-b boot/grub/stage2_eltorito    \
 				-no-emul-boot                   \
@@ -38,6 +40,10 @@ $(BUILDDIR)/os.iso: $(BUILDDIR)/iso/boot $(BUILDDIR)/iso/boot/grub
 				-boot-info-table                \
 				-o build/os.iso                 \
 				build/iso
+
+$(BUILDDIR)/iso/modules:
+	mkdir -p $@
+	nasm -fbin modules/simple.s -o $@/simple
 
 ## GRUB section
 $(GRUB).tar.gz:
