@@ -18,7 +18,6 @@ void ack_pic () {
 // Go see here: https://www-s.acm.illinois.edu/sigops/roll_your_own/i386/irq.html
 void setup_pic () {
 
-    __asm__("xchg %bx, %bx");
     /* ICW1 */
     outb(MASTER_PORT_A, 0x11); /* Master port A */
     outb(SLAVE_PORT_A, 0x11);  /* Slave port A */

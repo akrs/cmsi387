@@ -37,5 +37,7 @@ int fb_write_str(char *buf);
 
 int fb_write_hex(int32_t num);
 
+int fb_write_num(int32_t num);
+
 void fb_clear();
 #endif
