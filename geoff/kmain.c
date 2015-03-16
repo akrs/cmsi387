@@ -25,7 +25,7 @@ int kernel_main() {
     fb_write_hex(address_of_module);
     asm("xchg bx, bx");
     typedef void (*call_module_t)(void);
-    call_module_t start_program = (call_module_t) &address_of_module;
+    call_module_t start_program = (call_module_t) address_of_module;
     start_program+=0;
     fb_write_str("Flags: ");
     fb_write_num(mbinfo->flags);
