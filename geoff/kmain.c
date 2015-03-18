@@ -1,26 +1,32 @@
-#include "fb.h"
-#include "serial.h"
-#include "gdt.h"
+#include <fb.h>
+#include <serial.h>
+#include <gdt.h>
 #include <idt.h>
+#include <pic.h>
+#include <io.h>
+#include <multiboot.h>
+#include <stdint.h>
 
-int kernel_main() {
+int kernel_main(uintptr_t ebx) {
     fb_clear();
-    fb_write_str("Hello World\n");
-    for (int i = 0; i < 3; i++) {
-        fb_write_str("Goodbye, World!\t");
-    }
-    fb_write_str("\n");
-    for (int i = 0; i < 80; i++) {
-        char num = (48 + i % 4);
-        char* ptr = &num;
-        fb_write(ptr, 1);
-    }
+    fb_write_str("Hello world, I'm Geoff.\n");
 
-    serial_write_str("Hello world!");
     gdt_load();
-    fb_write_str("\nGDT Loaded.");
 
     idt_load();
+    asm("int 3");
+    
 
-    return 42;
+    setup_pic();
+
+    multiboot_info_t *mbinfo = (multiboot_info_t *)ebx;
+    module_t* modules = (module_t*) mbinfo->mods_addr;
+    uintptr_t address_of_module = modules->mod_start;
+
+    typedef void (*call_module_t)(void);
+    call_module_t start_program = (call_module_t) address_of_module;
+    asm("xchg bx, bx");
+    start_program();
+
+    return 0;
 }

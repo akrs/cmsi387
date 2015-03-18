@@ -48,43 +48,73 @@ void fb_scroll_up() {
     current_position -= NUM_COLS;
 }
 
+int fb_write_char(char buf) {
+    if (current_position >= BUFFER_LENGTH) {
+        fb_scroll_up();
+    }
+    switch (buf) {
+        case '\n':
+            current_position += NUM_COLS - (current_position % NUM_COLS);
+            fb_move_cursor(current_position);
+            break;
+        case '\t':
+            current_position += TAB_WIDTH - (current_position % TAB_WIDTH);
+            fb_move_cursor(current_position);
+            break;
+        default:
+            fb_write_cell(current_position, buf, BLACK, LIGHT_GREY);
+            fb_move_cursor(current_position++);
+            break;
+    }
+    return 1;
+}
+
+
 int fb_write(char *buf, size_t len) {
     if (len > BUFFER_LENGTH) {
         return -1;
     }
-    uint32_t i = 0;
-    
-    while (i < len) {
-        if (current_position >= BUFFER_LENGTH) {
-            fb_scroll_up();
-        } 
-        switch (buf[i]) {
-            case '\n':
-                current_position += NUM_COLS - (current_position % NUM_COLS);
-                fb_move_cursor(current_position);
-                break;
-            case '\t':
-                current_position += TAB_WIDTH - (current_position % TAB_WIDTH);
-                fb_move_cursor(current_position);
-                break;
-            default:
-                fb_write_cell(current_position, buf[i], BLACK, LIGHT_GREY);
-                fb_move_cursor(current_position++);
-                break;
-        }
-        i++;
+    uint32_t i;
+    for (i = 0; i < len; i++) {
+        fb_write_char(buf[i]);
     }
-    if (len > 1) {
-        current_position--;
-    }
-
     return i;
 }
 
-
-
 int fb_write_str(char *buf) {
     return fb_write(buf, strlen(buf));
+}
+
+int fb_write_hex(int32_t num) {
+    char dest[11] = {'0', 'x'};
+    for (int i = 9; i > 1; i--) {
+        char four_bits = num & 0xf;
+        if (four_bits < 0xa) {
+            dest[i] = four_bits + 0x30;         // maps onto 0-9
+        } else {
+            dest[i] = four_bits + 0x61 - 0xa;   // maps onto a-f
+        }
+        num = num >> 4;
+    }
+    return fb_write(dest, 10);
+}
+
+int fb_write_num(int32_t num) {
+    if (num < 0) {
+        fb_write_char('-');
+        num = -num;
+    } else if (num == 0) {
+        return fb_write_str("0");
+    }
+
+    char dest[20];
+    int ptr = 20;
+    while (num > 0) {
+        dest[--ptr] = '0' + num % 10;
+        num /= 10;
+    }
+
+    return fb_write(dest + ptr, 20 - ptr);
 }
 
 void fb_clear() {

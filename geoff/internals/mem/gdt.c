@@ -37,11 +37,12 @@ void encode_gdt_entry(uint8_t *target, struct GDT source) {
     target[5] = source.type;
 }
 
+uint64_t global_descriptor_table[4];
 void gdt_load() {
     struct GDT source[4];
     source[0].base=0;
     source[0].limit=0;
-    source[0].type=0;                     // Selector 0x00 cannot be used
+    source[0].type=0;            // Selector 0x00 cannot be used
     source[1].base=0;
     source[1].limit=0xffffffff;
     source[1].type=0x9A;         // Selector 0x08 will be our code
@@ -50,7 +51,6 @@ void gdt_load() {
     source[2].type=0x92;         // Selector 0x10 will be our data
     // TODO: Task State Segment after we get context swtiching stuff
 
-    uint64_t global_descriptor_table[4];
     for (int i = 0; i < 4; i++) {
         encode_gdt_entry((uint8_t*)&global_descriptor_table[i], source[i]);
     }

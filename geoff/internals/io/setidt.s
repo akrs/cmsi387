@@ -6,4 +6,5 @@ global  load_idt
 load_idt:
     mov     eax, [esp+4]    ; load the address of the IDT into register eax
     lidt    [eax]           ; load the IDT
+    sti
     ret                     ; return to the calling function
