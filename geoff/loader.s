@@ -20,7 +20,6 @@ loader:                       ; the loader label (defined as entry point in link
     ; The assembly code
     extern kernel_main   ; the function sum_of_three is defined elsewhere
     push ebx
-    xchg bx, bx
     call kernel_main       ; call the function, the result will be in eax
                                                 ; stack (end of memory area)
 

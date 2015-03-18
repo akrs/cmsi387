@@ -1,5 +1,4 @@
-section .text
-align 4
+bits 32
 start:
 mov eax, 0xCAFEBABE
 
