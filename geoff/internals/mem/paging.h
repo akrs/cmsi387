@@ -1,5 +1,3 @@
-#include <stdint.h>
-
 #ifndef _PAGING
 #define _PAGING
 
