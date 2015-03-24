@@ -22,10 +22,8 @@ void enable_paging() {
 
     // attributes: supervisor level, read/write, present
     page_directory[0] = ((uintptr_t)page_table) | 3;
-    fb_write_hex((uintptr_t)page_directory);
     // Set address of page_directory to cr3, where the MMU is expecting it
     asm volatile("mov cr3, %0":: "r" (page_directory));
-
     asm volatile("mov eax, cr0;"
                  "or eax, 0x80000000;"
                  "mov cr0, eax;":::"eax");
