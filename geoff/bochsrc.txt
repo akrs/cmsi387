@@ -5,5 +5,5 @@ ata0-master:     type=cdrom, path=build/os.iso, status=inserted
 boot:            cdrom
 log:             bochslog.txt
 clock:           sync=realtime, time0=local
-cpu:             count=1, ips=1000000
+cpu:             count=1, ips=1000000, reset_on_triple_fault=0
 com1:            enabled=1, mode=file, dev=com1.out
